@@ -1,0 +1,320 @@
+/* General styling used on every page */
+* {
+    box-sizing: border-box;
+}
+
+/*
+    Set the main color theme to be shades of Purple and Red 
+    since I asssoicte those colors with transformers 
+    but I also added Green in there to make it ugly
+*/
+body {
+    margin: 0;
+    background-color: #5100a2;
+    color: #f99393;
+    font-family: "Comic Sans MS", "Times New Roman", Arial;
+    font-size: 18px;
+}
+
+/* Top Banner */
+.siteHeader {
+    background-color: #544167;
+    text-align: center;
+    padding: 20px;
+}
+
+.siteHeader h1 {
+    color: #ff0000;
+    font-size: 48px;
+    margin: 12px 0;
+}
+
+/*  
+    Main page layout
+    Places the sidebar next to the main content 
+*/
+.pageLayout {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 15px;
+}
+
+/* Navigation Sidebar */
+.sidebar {
+    width: 300px;
+    background-color: #a1a1a1;
+    padding: 20px;
+    text-align: center;
+}
+
+/* Navigation links */
+.sidebar a {
+    display: block;
+    color: #ffff00;
+    padding: 15px 5px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    font-size: 16px;
+    text-decoration: none;
+}
+
+/* Main content area */
+.mainContent {
+    flex: 1;
+    min-width: 0;
+    padding: 25px;
+    text-align: center;
+}
+
+/* Heading style for inside the main-content */
+.mainContent h2 {
+    color: #ff2929;
+    font-size: 32px;
+}
+
+
+
+/* HOME PAGE */
+
+/* Homepage Intro */
+.intro {
+    color: #63ff35;
+    font-size: 24px;
+    line-height: 2;
+    text-align: left;
+}
+
+/* Autobot and Decepticon Logos */
+.logos {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 30px;
+}
+
+/* Shared logo styling / positioning */
+.logos figure {
+    margin: 0;
+}
+
+.logos img {
+    display: block;
+    width: 300px;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+}
+
+/* Styles the captions of Autobot and Decepticon */
+.logos figcaption {
+    color: #63ff35;
+    font-size: 26px;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+/* Styles OP Quote */
+.quoteSection {
+    color: #ffff00;
+    font-size: 24px;
+    margin-top: 35px;
+}
+
+/* TOP 10 TRANSFORMERS PG */
+
+/* Main page content is allgined to the left while being centered */
+.topTenContent {
+    text-align: left;
+}
+
+.topTenIntro {
+    color: #ffff00;
+    font-size: 25px;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Adds spacing to the numbered list */
+.transformerRanking {
+    padding-left: 55px;
+}
+
+/* Character names and numbers */
+.transformerRanking li {
+    color: #63ff35;
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 40px;
+}
+
+.transformerRanking h2 {
+    color: #ff2929;
+    font-size: 30px;
+    text-align: left;
+}
+
+/* Character images */
+.transformerRanking img {
+    display: block;
+    width: 380px;
+    max-width: 100%;
+    height: auto;
+    margin: 15px auto;
+}
+
+/* TOP 5 TRANSFORMERS MOVIES PAGE */
+
+.movieContent {
+    text-align: left;
+}
+
+.movieIntro {
+    color: #ffff00;
+    font-size: 26px;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Movie ranking list */
+.movieRanking {
+    padding-left: 55px;
+}
+
+.movieRanking li {
+    color: #63ff35;
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 55px;
+}
+
+.movieRanking h2 {
+    color: #ff2929;
+    font-size: 30px;
+    text-align: left;
+}
+
+/* Movie poster images */
+.movieRanking img {
+    display: block;
+    width: 300px;
+    max-width: 100%;
+    height: auto;
+    margin: 15px auto;
+}
+
+/* GALLERY PAGE */
+
+.galleryIntro {
+    color: #ffff00;
+    font-size: 26px;
+    font-weight: bold;
+}
+
+/* Image styling for the gallery */
+.galleryImages img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 30px;
+}
+
+/* Sizes and spacing of the gallery */
+.galleryImage1 {
+    width: 280px;
+    margin-left: 20px;
+}
+
+.galleryImage2 {
+    width: 400px;
+    margin-left: 180px;
+}
+
+.galleryImage3 {
+    width: 320px;
+    margin-left: 60px;
+}
+
+.galleryImage4 {
+    width: 500px;
+    margin-left: 120px;
+}
+
+.galleryImage5 {
+    width: 250px;
+    margin-left: 250px;
+}
+
+/* TRIBUTE PAGE */
+
+.tributeYears {
+    color: #ffff00;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.tributeContent img {
+    display: block;
+    width: 450px;
+    max-width: 100%;
+    height: auto;
+    margin: 30px auto;
+}
+
+.tributeContent p {
+    color: #63ff35;
+    font-size: 24px;
+}
+
+/* MOBILE STYLING */
+
+@media screen and (max-width: 700px) {
+
+    /* Make the heading smaller */
+    .siteHeader h1 {
+        font-size: 30px;
+    }
+
+    /* Move the sidebar above the page content */
+    .pageLayout {
+        display: block;
+        padding: 10px;
+    }
+
+    /* Make navigation smaller */
+    .sidebar {
+        width: 100%;
+    }
+
+    /* Make the main content smaller */
+    .mainContent {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .logos {
+        display: block;
+    }
+
+    .logos figure {
+        margin: 20px auto;
+    }
+
+    /* Keep all images inside the smaller screen */
+    .mainContent img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    /* Brings the gallery images back towards the center */
+    .galleryImages img {
+        width: 80%;
+        margin: 15px auto;
+    }
+
+    /* Reduce the list spacing */
+    .transformerRanking,
+    .movieRanking {
+        padding-left: 35px;
+    }
+}
