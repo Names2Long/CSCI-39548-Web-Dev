@@ -1,0 +1,119 @@
+<!--
+Ishraq Chowdhury
+File: index.html
+Assignment 2
+September 25, 2026
+Defines the page structure, inputs, buttons, array display, and results
+-->
+
+<!-- Standards - establish lang and document html type -->
+<!doctype html>
+<html lang = "en">
+
+  <head>
+    <!-- Mobile Viewing -->
+    <meta charset = "utf-8">
+    <meta name = "viewport" content = "width=device-width, initial-scale=1">
+    <meta name = "description" content = "Build an array of integers, set a target, and see which two numbers add up to it.">
+    <title> Two Sum Calculator </title>
+
+  
+    <!-- Load CSS, then run TwoSum function and page controls after the HTML -->
+    <link rel = "stylesheet" href = "style.css">
+    <script src = "two-sum.js" defer></script>
+    <script src = "script.js" defer></script>
+  </head>
+
+  <body>
+
+    <!-- The heading and instructions to the calculator. CSS also centers this section -->
+    <header class = "site-header">
+      <div class = "page-width">
+        <h1 class = "site-title"> Two Sum Calculator </h1>
+        <p class = "site-intro">
+          Add numbers to the array and set a target to find the two positions whose vakues add up to it
+      </div>
+    </header>
+
+    <main id = "main-content" class = "page-width layout">
+     
+      <!-- Controls -->
+      <section class = "panel controls-panel" aria-label = "Array controls">
+        
+          <!-- Submitting this form runs the Push handler, including when Enter is pressed. JavaScript handles the validation -->
+        <form id = "push-form" class = "field-group" novalidate>
+          <label for = "push-input" class = "field-label"> Add Number </label>
+          <p id = "push-hint" class = "field-hint"> Any Integer </p>
+          <div class = "input-row">
+
+            <!-- A text input removes number spinner controls, inputmode requests a numeric keyboard on mobile and then JS checks the value -->
+            <input
+              id = "push-input"
+              class = "text-input"
+              type = "text"
+              inputmode = "numeric"
+              autocomplete = "off"
+              aria-describedby = "push-hint push-error"
+            >
+            <button type = "submit" class = "button button-primary"> Push </button>
+          </div>
+
+          <!-- Validation messages appear here. role = "alert" will announce any errors -->
+          <p id = "push-error" class = "field-error" role = "alert"></p>
+        </form>
+
+        <!-- Separate buttons remove the last value or empty the array but they do not submit the form -->
+        <div class = "button-row">
+          <button id = "pop-button" type = "button" class = "button button-secondary">
+            Pop Last
+          </button>
+          <button id = "clear-button" type = "button" class = "button button-quiet">
+            Clear Array
+          </button>
+        </div>
+
+        <!-- The target input updates the the users result. Its label and error message are linked by the IDs -->
+        <div class = "field-group target-group">
+
+          <label for = "target-input" class = "field-label"> Sum </label>
+          <input
+            id = "target-input"
+            class = "text-input"
+            type = "text"
+            inputmode = "numeric"
+            autocomplete = "off"
+            aria-describedby = "target-error"
+          >
+          <p id = "target-error" class = "field-error" role = "alert"></p>
+        </div>
+      </section>
+
+      <!-- Array and result -->
+      <section class = "panel output-panel" aria-labelledby = "array-heading">
+        <div class = "array-header">
+          <h2 id = "array-heading" class = "panel-title"> Nums </h2>
+        </div>
+
+        <!-- The array visual and each item shows its value and its index -->
+        <ol id = "array-view" class = "array-view" aria-label = "Array contents"></ol>
+
+        <!-- JS fills output result with a pair of indices or No Pair Found. A incomplete input leaves it blank -->
+        <div class = "result-box" id = "result-box" data-state = "waiting">
+          <h3 class = "result-title"> Result </h3>
+          <p id = "result-output" class = "result-output" aria-live = "polite" aria-atomic = "true"></p>
+
+          <!-- This element is kept for compatibility with script.js -->
+          <p id = "result-detail" class = "result-detail"></p>
+        </div>
+      </section>
+    </main>
+
+    <!-- Screen reader only announcements for push/pop -->
+    <p id = "sr-status" class = "visually-hidden" aria-live = "polite"></p>
+
+    <footer class = "site-footer">
+      <div class = "page-width">
+      </div>
+    </footer>
+  </body>
+</html>
