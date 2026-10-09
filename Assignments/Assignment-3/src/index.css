@@ -1,0 +1,108 @@
+/*
+  Ishraq Chowdhury
+  File: index.css
+  Assignment 3
+  October 9, 2026
+  Styles the title, board, squares, winning highlight, status messages, and move list
+*/
+
+/* Makes width and height include padding and borders so sizes are easier to predict */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+  margin: 20px;
+  padding: 0;
+}
+
+/* Centers the Tic Tac Toe heading at the top of the page */
+.title {
+  text-align: center;
+  margin: 0 0 24px;
+}
+
+/*
+  Each square on the board
+  The negative margins make neighboring borders overlap so I made the grid lines stay thin
+*/
+.square {
+  background: #fff;
+  border: 1px solid #999;
+  float: left;
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 34px;
+  height: 34px;
+  margin-right: -1px;
+  margin-top: -1px;
+  padding: 0;
+  text-align: center;
+  width: 34px;
+  cursor: pointer;
+}
+
+/* Lightly shades a square when the mouse hovers over it */
+.square:hover {
+  background: #f2f2f2;
+}
+
+/* Highlights the three squares that won the game in green */
+.square-winning,
+.square-winning:hover {
+  background: #8fd694;
+  color: #1b5e20;
+}
+
+/*
+  The squares use float to sit side by side
+  This clears the float after each row so the next row starts on a new line
+*/
+.board-row:after {
+  clear: both;
+  content: '';
+  display: table;
+}
+
+/* The message above the board (next player, winner, or draw) */
+.status {
+  margin-bottom: 10px;
+}
+
+/* Green text for "Winner: X" or "Winner: O" */
+.status-winner {
+  font-weight: bold;
+  color: #2e9e3e;
+}
+
+/* Yellow text for "It's a draw!" */
+.status-draw {
+  font-weight: bold;
+  color: #e0b000;
+}
+
+/* Places the board and the move list side by side */
+.game {
+  display: flex;
+  flex-direction: row;
+}
+
+/* Adds space between the board and the move list */
+.game-info {
+  margin-left: 20px;
+}
+
+.game-info ol {
+  margin-top: 10px;
+  padding-left: 24px;
+}
+
+.game-info li {
+  margin-bottom: 4px;
+}
+
+/* Makes the "You are at move #..." text bold so it stands out */
+.current-move {
+  font-weight: bold;
+}
