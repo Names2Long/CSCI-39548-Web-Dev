@@ -1,0 +1,38 @@
+# Ishraq Chowdhury
+# File: .gitignore
+# Assignment 4
+# October 23, 2026
+#
+# Lists files and folders that Git should never track or upload to GitHub.
+# Most of this is Vite's default list. The important addition for this
+# assignment is the .env section, which keeps the TMDB API token private.
+
+# ---------- Secrets (added for Assignment 4) ----------
+# The .env file holds VITE_TMDB_TOKEN, so it must never be committed.
+.env
+.env.*
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

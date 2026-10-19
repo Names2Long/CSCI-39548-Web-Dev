@@ -1,0 +1,447 @@
+/*
+ * Ishraq Chowdhury
+ * File: App.css
+ * Assignment 4
+ * October 23, 2026
+ *
+ * Styles for the app's layout and components: the header and search form,
+ * the responsive CSS Grid of movie cards, the empty/error states, the
+ * "Load more" button, and the MovieDetail modal. Mobile support (Assignment 4
+ * #4) comes mainly from CSS Grid: the movie grid uses repeat(auto-fill,
+ * minmax(...)) so the number of columns adjusts to the screen width on its
+ * own, without any media queries. Media queries are only used where the
+ * layout should actually change shape (the header row and the modal).
+ */
+
+/* ---------- Page layout ---------- */
+.app {
+    max-width: 1200px;
+    margin: 0 auto;
+    /* clamp(min, preferred, max): padding grows with the screen width
+       (4vw) but never goes below 1rem or above 2.5rem. */
+    padding: clamp(1rem, 4vw, 2.5rem);
+}
+
+/* ---------- Header + search ---------- */
+.app-header {
+    display: grid;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.app-header h1 {
+    font-family: var(--font-body); /* same basic font as the rest of the page */
+    font-weight: 800;
+    color: var(--accent);
+    /* Fluid font size: about 2.25rem on phones up to 3.5rem on big screens. */
+    font-size: clamp(2.25rem, 6vw, 3.5rem);
+    letter-spacing: -0.01em;
+}
+
+/* The form is a 2-column grid: the input takes all leftover space (1fr)
+   and the button only takes as much room as it needs (auto). */
+.search {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.5rem;
+}
+
+.search input {
+    width: 100%;
+    min-height: 52px; /* a bit taller than the minimum, easy to hit with a thumb */
+    padding: 0 1rem;
+    border-radius: var(--radius);
+    border: 1px solid var(--surface-2);
+    background: var(--surface);
+}
+
+.search input::placeholder {
+    color: var(--muted);
+}
+
+.search button {
+    min-height: 52px;
+    background: var(--accent);
+    color: var(--accent-ink);
+    border-color: var(--accent);
+}
+
+.search button:hover {
+    background: #ffc95e;
+}
+
+/* On wider screens, put the title and the search bar on the same row. */
+@media (min-width: 760px) {
+    .app-header {
+        grid-template-columns: auto minmax(0, 460px);
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+
+/* ---------- Results heading + count ---------- */
+.results-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.25rem 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.results-header h2 {
+    font-size: 1.375rem;
+}
+
+.results-count {
+    color: var(--muted);
+    font-size: 0.9375rem;
+}
+
+/* ---------- The movie grid (main CSS Grid for mobile support) ---------- */
+.grid {
+    display: grid;
+    /*
+     * repeat(auto-fill, minmax(X, 1fr)) means: "fit as many columns as you can,
+     * where each column is at least X wide, then stretch them to fill the row."
+     * So the column count changes by itself as the screen gets wider or narrower:
+     * about 2 columns on a phone, 3-4 on a tablet, 5-6 on a laptop.
+     *
+     * X = min(100%, clamp(140px, 20vw, 210px)):
+     *   - clamp(...) makes the minimum card width grow with the screen
+     *     (20% of the viewport), but stay between 130px and 190px.
+     *   - min(100%, ...) stops a card from ever being wider than the screen
+     *     on very small phones, so the page never scrolls sideways.
+     *
+     * auto-fill (instead of auto-fit) keeps empty column slots, so a search with
+     * only 1-2 results shows normal-sized posters instead of giant stretched ones.
+     */
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, clamp(130px, 20vw, 190px)), 1fr));
+    gap: clamp(1rem, 2.5vw, 1.75rem) clamp(0.75rem, 2vw, 1.25rem); /* row gap, column gap */
+}
+
+/* ---------- Movie card ---------- */
+.card {
+    position: relative; /* lets the title button's ::after cover the whole card */
+    display: grid;
+    gap: 0.5rem;
+    align-content: start;
+}
+
+.card img,
+.no-poster {
+    width: 100%;
+    aspect-ratio: 2 / 3; /* posters are 2:3, so space is reserved before the image loads */
+    border-radius: var(--radius);
+    background: var(--surface);
+    object-fit: cover;
+}
+
+.card img {
+    transition: filter 0.15s ease;
+}
+
+.no-poster {
+    display: grid;
+    place-items: center;
+    color: var(--muted);
+    border: 1px dashed var(--surface-2);
+}
+
+.card-title {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+/* Reset the default button look so the title reads like normal text. */
+.card-title button {
+    min-height: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    text-align: left;
+    font-weight: inherit;
+    line-height: inherit;
+}
+
+.card-title button:hover {
+    background: none;
+}
+
+/* The "stretched button" trick: an invisible box on top of the whole card,
+   so clicking anywhere on the card (including the poster) clicks the button. */
+.card-title button::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius);
+}
+
+/* Put the keyboard focus outline around the whole card, not just the title text. */
+.card-title button:focus-visible {
+    outline: none;
+}
+
+.card-title button:focus-visible::after {
+    outline: 3px solid var(--accent);
+    outline-offset: 4px;
+}
+
+/* Hover feedback so it's clear the cards are clickable. */
+.card:hover img {
+    filter: brightness(1.15);
+}
+
+.card:hover .card-title {
+    color: var(--accent);
+}
+
+.card-meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+    color: var(--muted);
+    font-size: 0.875rem;
+}
+
+.rating {
+    color: var(--accent);
+}
+
+/* ---------- Empty state, errors, load more ---------- */
+.empty,
+.error {
+    display: grid;
+    justify-items: center;
+    gap: 0.75rem;
+    padding: 2.5rem 1.5rem;
+    text-align: center;
+    border-radius: var(--radius);
+    background: var(--surface);
+}
+
+.empty {
+    color: var(--muted);
+}
+
+.empty-title {
+    color: var(--text);
+    font-size: 1.25rem;
+    font-weight: 600;
+    overflow-wrap: anywhere; /* long gibberish searches wrap instead of overflowing */
+}
+
+.error {
+    color: var(--danger);
+    margin-top: 1.5rem;
+}
+
+.load-more {
+    display: block;
+    width: 100%;
+    max-width: 320px;
+    min-height: 52px;
+    margin: 2.5rem auto 0;
+}
+
+/* ---------- Footer ---------- */
+.app-footer {
+    margin-top: 4rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--surface-2);
+    color: var(--muted);
+    font-size: 0.8125rem;
+}
+
+/* ---------- Movie detail modal (<dialog>) ---------- */
+.detail {
+    padding: 0;
+    border: 0;
+    border-radius: 12px;
+    width: min(820px, calc(100% - 2rem));
+    max-width: none;
+    max-height: calc(100dvh - 2rem);
+    background: var(--surface);
+    color: var(--text);
+    overflow: hidden; /* the inner panel does the scrolling instead */
+    animation: detail-open 0.2s ease-out;
+}
+
+/* ::backdrop is the dimmed layer the browser draws behind a modal dialog. */
+.detail::backdrop {
+    background: rgb(6 9 20 / 0.8);
+}
+
+@keyframes detail-open {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+}
+
+.detail-panel {
+    max-height: inherit;
+    overflow-y: auto;
+}
+
+.detail-close {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    z-index: 2;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border-radius: 50%;
+    border: 0;
+    background: rgb(16 23 42 / 0.85); /* dark circle so it shows on bright images */
+    font-size: 1.75rem;
+    line-height: 1;
+}
+
+.detail-backdrop {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    max-height: 320px;
+    object-fit: cover;
+}
+
+/*
+ * The detail body is a CSS Grid with named areas.
+ * Phone layout (default):
+ *   [poster] [title]
+ *   [ info  info   ]   <- the overview gets the full width to stay readable
+ */
+.detail-body {
+    display: grid;
+    grid-template-columns: 104px 1fr;
+    grid-template-areas:
+        "poster title"
+        "info info";
+    gap: 1.25rem 1rem;
+    padding: 1.25rem;
+}
+
+.detail-poster {
+    grid-area: poster;
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+    border-radius: var(--radius);
+    box-shadow: 0 6px 20px rgb(0 0 0 / 0.45);
+}
+
+/* When there's a backdrop image above, pull the poster up so it overlaps it.
+   The "+" selector means "a .detail-body that comes right after the backdrop". */
+.detail-backdrop + .detail-body .detail-poster {
+    position: relative;
+    margin-top: -3.5rem;
+}
+
+.detail-title-block {
+    grid-area: title;
+    display: grid;
+    gap: 0.5rem;
+    align-content: start;
+    padding-right: 2.5rem; /* keep long titles clear of the close button */
+}
+
+/* The close button only overlaps the title when there's no backdrop on top. */
+.detail-backdrop + .detail-body .detail-title-block {
+    padding-right: 0;
+}
+
+.detail-title-block h2 {
+    font-size: clamp(1.375rem, 4vw, 2rem);
+}
+
+.detail-original {
+    color: var(--muted);
+    font-style: italic;
+}
+
+.detail-facts {
+    display: grid;
+    gap: 0.25rem;
+    margin: 0.25rem 0 0;
+    font-size: 0.9375rem;
+}
+
+.detail-facts div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 0.5rem;
+}
+
+.detail-facts dt {
+    color: var(--muted);
+}
+
+.detail-facts dt::after {
+    content: ":";
+}
+
+.detail-facts dd {
+    margin: 0;
+}
+
+.detail-info {
+    grid-area: info;
+    display: grid;
+    gap: 0.75rem;
+    align-content: start;
+}
+
+.detail-info h3 {
+    font-size: 1rem;
+    color: var(--accent);
+}
+
+.detail-overview {
+    max-width: 65ch; /* keeps lines short enough to read comfortably */
+    line-height: 1.65;
+}
+
+.detail-link {
+    justify-self: start;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    font-weight: 600;
+}
+
+/*
+ * Wider screens: the poster gets its own column down the left side,
+ * and the title and overview stack on the right.
+ *   [poster] [title]
+ *   [poster] [info ]
+ */
+@media (min-width: 640px) {
+    .detail-body {
+        grid-template-columns: 200px 1fr;
+        grid-template-areas:
+            "poster title"
+            "poster info";
+        gap: 1.25rem 1.75rem;
+        padding: 1.75rem;
+    }
+
+    .detail-backdrop + .detail-body .detail-poster {
+        margin-top: -6rem;
+    }
+}
+
+/* Phones: the modal fills the whole screen, like a native app's detail page. */
+@media (max-width: 639px) {
+    .detail {
+        width: 100%;
+        height: 100dvh;
+        max-height: 100dvh;
+        margin: 0;
+        border-radius: 0;
+    }
+
+    .detail-panel {
+        height: 100%;
+    }
+}
